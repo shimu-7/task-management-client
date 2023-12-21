@@ -4,7 +4,7 @@ import { FaPortrait } from "react-icons/fa";
 
 const Footer = () => {
     return (
-        <div className="max-w-7xl mx-auto mt-5">
+        <div className="max-w-7xl mx-auto mt-20">
             <footer className="footer bg-slate-100 p-10">
                 <aside>
                     <a className="px-3 py-1 rounded-2xl  font-semibold normal-case text-xl">TaskMaster</a>

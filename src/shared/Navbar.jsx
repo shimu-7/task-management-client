@@ -1,9 +1,11 @@
 import { Link, NavLink } from "react-router-dom";
 import { CgProfile } from "react-icons/cg";
+import { AuthContext } from "../providers/AuthProvider";
+import { useContext } from "react";
 
 
 const Navbar = () => {
-    const user = ""
+    const { user, logOut } = useContext(AuthContext)
     const links = <>
         <li className="mx-2"><NavLink
             to="/"
@@ -35,6 +37,21 @@ const Navbar = () => {
             Dashboard
         </NavLink>
         </li>
+        <li className="mx-2"><NavLink
+            to="/register"
+            style={({ isActive, isPending, isTransitioning }) => {
+                return {
+                    textDecoration: isActive? "underline" : "",
+                    textDecorationColor: isActive? "decoration-sky-500":"",
+                    fontWeight: isActive ? "bold" : "",
+                    color: isPending ? "red" : "black",
+                    viewTransitionName: isTransitioning ? "slide" : "",
+                };
+            }}
+        >
+            Sign up
+        </NavLink>
+        </li>
         {/* <li><NavLink tag={Link} className="" exact activeClassName="underline" to="/">PEOPLE PROFILES</NavLink></li> */}
 
     </>
@@ -50,7 +67,7 @@ const Navbar = () => {
                             {links}
                         </ul>
                     </div>
-                    <a className="px-3 py-1 rounded-xl bg-cyan-400 font-semibold normal-case text-xl">TaskMaster</a>
+                    <a className="px-3 py-1 rounded-xl bg-teal-500 font-semibold normal-case text-xl">TaskMaster</a>
 
                 </div>
                 <div className="navbar-center hidden lg:flex">
@@ -69,14 +86,14 @@ const Navbar = () => {
 
                     <div className="w-10 rounded-full mx-[4px]">
                         {
-                            user?.photoURL ? <Link to="/userProfile">
+                            user?.photoURL ? 
                                 <img className="h-10 w-10 rounded-full" src={`${user.photoURL}`} referrerPolicy="no-referrer" ></img>
-                            </Link> : <CgProfile className="text-3xl"></CgProfile>
+                             : <CgProfile className="text-3xl"></CgProfile>
                         }
                     </div>
                     {
                         user ?
-                            <Link to="/"><button  className="underline">Sign Out</button></Link>
+                            <Link to="/"><button onClick={logOut}  className="underline">Sign Out</button></Link>
                             :
                             <Link to="/login">
                                 <button className="underline">Sign in</button>
