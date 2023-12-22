@@ -11,9 +11,9 @@ const Root = () => {
             <Outlet></Outlet>
             <Footer></Footer>
             <Toaster
-        position="top-center"
-        reverseOrder={false}
-      />
+                position="top-center"
+                reverseOrder={false}
+            />
         </div>
     );
 };

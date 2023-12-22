@@ -1,6 +1,7 @@
 import { NavLink, Outlet } from "react-router-dom";
 import Navbar from "../shared/Navbar";
 import Footer from "../shared/Footer";
+import { Toaster } from "react-hot-toast";
 
 
 const Dashboard = () => {
@@ -15,6 +16,10 @@ const Dashboard = () => {
                         <li>
 
                             <NavLink to="/allTask">All Task</NavLink>
+                        </li>
+                        <li>
+
+                            <NavLink to="/dashboard/addTask">Create Task</NavLink>
                         </li>
 
                         <li >
@@ -40,6 +45,10 @@ const Dashboard = () => {
                 </div>
             </div>
             <Footer></Footer>
+            <Toaster
+                position="top-center"
+                reverseOrder={false}
+            />
         </div>
     );
 };
