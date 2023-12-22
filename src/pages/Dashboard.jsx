@@ -14,32 +14,28 @@ const Dashboard = () => {
                     <ul className="menu text-lg">
 
                         <li>
-
-                            <NavLink to="/allTask">All Task</NavLink>
+                             <NavLink to="/dashboard/manageTask">ToDo Task</NavLink>
                         </li>
+                        <div className="h-[1px] w-full bg-teal-600"></div>
+                        <li>
+                            <NavLink to="/dashboard/onGoingTask">OnGoing Task</NavLink>
+                        </li>
+                        <div className="h-[1px] w-full bg-teal-600"></div>
+                        <li>
+                            <NavLink to="/dashboard/CompletedTask">Completed Task</NavLink>
+                        </li>
+                        <div className="h-[1px] w-full bg-teal-600"></div>
                         <li>
 
                             <NavLink to="/dashboard/addTask">Create Task</NavLink>
                         </li>
 
-                        <li >
-
-                            <NavLink to="/toDo">To Do</NavLink>
-                        </li>
-                        <li >
-
-                            <NavLink to="/Ongoing">On going</NavLink>
-                        </li>
-                        <li>
-
-                            <NavLink to="/Completed">Completed</NavLink>
-                        </li>
                     </ul>
                     <div className="divider divider-horizontal divider-accent "></div>
                 </div>
-               
-                    
-                
+
+
+
                 <div className="flex-1 md:p-8">
                     <Outlet></Outlet>
                 </div>

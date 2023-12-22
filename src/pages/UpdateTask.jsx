@@ -1,0 +1,107 @@
+import axios from "axios";
+import { useContext, useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
+import toast from "react-hot-toast";
+import { useLoaderData, useNavigate, useParams } from "react-router-dom";
+import { AuthContext } from "../providers/AuthProvider";
+import { useQuery } from "@tanstack/react-query";
+
+
+const UpdateTask = () => {
+
+    const { user } = useContext(AuthContext)
+    const { id } = useParams();
+    const [taskitem, setTaskitem] = useState([])
+    const { data: tasks = [], refetch } = useQuery({
+        queryKey: ['tasks'],
+        queryFn: async () => {
+            const res = await axios.get(`https://scic-job-task-server-gamma.vercel.app/tasks/${user.email}`);
+            return res.data;
+        }
+    })
+    useEffect(() => {
+        const selected = tasks.filter(one => one._id == id);
+        setTaskitem(selected)
+    }, [])
+    console.log(taskitem, id);
+    // const taskitem = useLoaderData();
+    // console.log(taskitem)
+    const { register, handleSubmit } = useForm()
+    const navigate = useNavigate();
+    const onSubmit = async (data) => {
+        console.log(data)
+        const task = {
+            name: data.name,
+            priority: data.priority,
+            date: data.date,
+            category: data.category,
+            description: data.description,
+            email: user.email
+        }
+        const res2 = await axios.put(`https://scic-job-task-server-gamma.vercel.app/tasks/${taskitem[0]._id}`, task);
+
+        if (res2.data.modifiedCount) {
+            //show alert 
+            refetch();
+            toast.success('Task modified Successfully!')
+            navigate("/dashboard/manageTask")
+        }
+
+
+    }
+
+
+
+    return (
+        <div>
+            <h1 className="text-4xl font-semibold text-teal-600 text-center my-4">Update Task</h1>
+            <div>
+                <form onSubmit={handleSubmit(onSubmit)}>
+                    <div className="form-control w-full">
+                        <label className="label">
+                            <span className="label-text">Task Name*</span>
+                        </label>
+                        <input {...register("name", { required: true })} type="text" defaultValue={taskitem[0]?.name} placeholder="name" className="input input-bordered w-full " />
+                    </div>
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+
+                        <div className="form-control w-full my-6">
+                            <label className="label">
+                                <span className="label-text">Priority*</span>
+                            </label>
+                            <input defaultValue={taskitem[0]?.priority} {...register("priority", { required: true })} type="text" placeholder="Priority" className="input input-bordered w-full " />
+                        </div>
+                        <div className="form-control w-full my-6">
+                            <label className="label">
+                                <span className="label-text">Deadline*</span>
+                            </label>
+                            <input defaultValue={taskitem[0]?.deadline} {...register("date", { required: true })} type="date" placeholder="Deadline" className="input input-bordered w-full " />
+                        </div>
+                        <div className="form-control w-full my-6">
+                            <label className="label">
+                                <span className="label-text">Category*</span>
+                            </label>
+                            <input defaultValue={taskitem[0]?.category}  {...register("category", { required: true })} type="text" placeholder="ToDo" className="input input-bordered w-full " />
+                        </div>
+                    </div>
+                    <div className="form-control">
+                        <label className="label">
+                            <span className="label-text">Description</span>
+
+                        </label>
+                        <textarea defaultValue={taskitem[0]?.description} {...register("description", { required: true })} className="textarea textarea-bordered h-24" placeholder="Description"></textarea>
+
+                    </div>
+
+                    <div className="my-5 text-center">
+                        <button className="btn w-1/3 bg-teal-500 text-white">
+                            Update Task
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    );
+};
+
+export default UpdateTask;

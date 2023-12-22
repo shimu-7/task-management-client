@@ -6,6 +6,10 @@ import Register from "../pages/Register";
 import Login from "../pages/Login";
 import PrivateRoute from "../providers/PrivateRoute";
 import AddTask from "../pages/AddTask";
+import ManageTask from "../pages/ManageTask";
+import OnGoing from "../pages/OnGoing";
+import Completed from "../pages/Completed";
+import UpdateTask from "../pages/UpdateTask";
 
 const router = createBrowserRouter([
     {
@@ -37,6 +41,23 @@ const router = createBrowserRouter([
           {
             path: "addTask",
             element: <AddTask></AddTask>
+          },
+          {
+            path: "manageTask",
+            element: <ManageTask></ManageTask>
+          },
+          {
+            path: "onGoingTask",
+            element: <OnGoing></OnGoing>
+          },
+          {
+            path: "completedTask",
+            element: <Completed></Completed>
+          },
+          {
+              path: "updateTask/:id",
+              element: <PrivateRoute><UpdateTask></UpdateTask></PrivateRoute>,
+              loader: ({params})=>fetch(`https://scic-job-task-server-gamma.vercel.app/tasks/${params.id}`)
           }
         ]
     }

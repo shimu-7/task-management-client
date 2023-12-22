@@ -1,8 +1,12 @@
+import { useContext } from "react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
+import { AuthContext } from "../providers/AuthProvider";
+import axios from "axios";
 
 
 const AddTask = () => {
+    const {user} = useContext(AuthContext)
     const { register, handleSubmit } = useForm()
     const onSubmit = async (data) => {
         console.log(data)
@@ -13,22 +17,15 @@ const AddTask = () => {
             date: data.date,
             category: data.category,
             description: data.description,
+            email: user.email
         }
         console.log(task);
-        fetch('http://localhost:5000/tasks', {
-            method: "POST",
-            headers: {
-                'content-type': 'application/json'
-            },
-            body: JSON.stringify(task)
-        })
-            .then(res => res.json())
-            .then(data => {
-                console.log(data);
-                if (data.insertedId) {
-                    toast.success('New Task created Successfully!')
-                }
-            })
+        const res2 = await axios.post('https://scic-job-task-server-gamma.vercel.app/tasks', task);
+            
+            if(res2.data.insertedId){
+                //show alert 
+                toast.success('New task created Successfully!')
+            }
     };
     return (
         <div>
@@ -73,7 +70,7 @@ const AddTask = () => {
 
                     <div className="my-5 text-center">
                         <button className="btn w-1/3 bg-teal-500 text-white">
-                            Add Test
+                            Create Task
                         </button>
                     </div>
                 </form>

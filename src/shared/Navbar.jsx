@@ -34,7 +34,7 @@ const Navbar = () => {
                 };
             }}
         >
-            Dashboard
+            <Link to="/dashboard/manageTask">Dashboard</Link>
         </NavLink>
         </li>
         <li className="mx-2"><NavLink
